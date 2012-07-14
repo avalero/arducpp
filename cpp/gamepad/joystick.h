@@ -115,6 +115,11 @@ class Joystick {
          * Return state of the specified axis
          */
         double getAxis(unsigned int axis) throw (string);
+        
+        /**
+         * Returns state of the specified axis with a value between -1 and +1
+         */
+        double getNormaizedAxis(unsigned int axis) throw (string);
 
         /**
          * Return state of the specified button

@@ -58,16 +58,22 @@ void Joystick::calibrate(string filename){
 
     }
 
-    cout << "Do not touch anything" << endl;
+	cout << "********************************************" << endl;
+	cout << "****    CALIBRATING GAME PAD    ************" << endl;
+	cout << "********************************************" << endl << endl << endl;
+    
+    cout << "1. Do not touch anything" << endl;
+    cout << "____________________________________" << endl;
     usleep(1000*2000); //2 secs usleep(1000*1000);
+    
     refresh();
-
-
     for (unsigned int i=0; i < getAxesNumber(); i++){
         offset[i]=getAxis(i);
     }
 
-    cout << "Move the axes to their max and min positions" << endl;
+    cout << "2. Move all the axes to their max and min positions (it will last about 10 seconds)" << endl;
+    cout << "____________________________________________________" << endl;
+
     for (int j=0;j<50;j++){
         refresh();
         for (unsigned int i=0; i < getAxesNumber(); i++){
@@ -75,11 +81,14 @@ void Joystick::calibrate(string filename){
             min_value[i]=(getAxis(i)<min_value[i])?getAxis(i):min_value[i];
         }
         usleep(1000*100);
-        cout << 10 - j/5 << " seconds remaining" << endl;
+        
     }
-
-    cout << "calibration values: " << endl;
-
+	cout << "FINISHED" << endl;
+    cout << "____________________________________________________" << endl;
+    
+    cout << "Calibration Values: " << endl;
+	cout << "____________________________________________________" << endl;
+    
     for (unsigned int i=0; i < getAxesNumber(); i++){
         cout << "axis " << i ;
         cout << ": offset " << offset[i];
@@ -143,8 +152,7 @@ void Joystick::refresh() throw (string)
                         buttons[event.number] = event.value;
                         break;
                 case JS_EVENT_AXIS:
-                    axes[event.number] = 2.0*(event.value - offset[event.number])
-                            /(max_value[event.number]-min_value[event.number]);
+                    axes[event.number] = event.value;
                         break;
                 default: // Should happen only if driver changes
                         oss << "Unknown event type: " << event.type;
@@ -152,6 +160,23 @@ void Joystick::refresh() throw (string)
                 }
         }
         //else printf("No data to be read\n");
+}
+
+double Joystick::getNormaizedAxis(unsigned int axis) throw (string)
+{
+        if (axis >= axesNumber) {
+                ostringstream oss;
+                oss << "Wrong axis number specified: " << axis;
+                throw oss.str();
+        }
+        
+        if (axes[axis] >=0){
+			return (1.0*(axes[axis]-offset[axis])/(max_value[axis] - offset[axis]));
+		}else{
+			return (1.0*(axes[axis]-offset[axis])/(min_value[axis] - offset[axis]));
+		}
+        
+        return 0;
 }
 
 double Joystick::getAxis(unsigned int axis) throw (string)
