@@ -34,7 +34,7 @@ int main(void){
 		//read the first four axes of your gamepad (normalized to [-1, +1] )
 		for (unsigned int i=0; i<4; i++){
 			cout << i << " ";
-			cout << gamepad->getNormaizedAxis(i);
+			cout << gamepad->getNormalizedAxis(i);
 			cout << endl;
 		}
 		usleep(1000*1000);
