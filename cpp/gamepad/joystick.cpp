@@ -162,7 +162,7 @@ void Joystick::refresh() throw (string)
         //else printf("No data to be read\n");
 }
 
-double Joystick::getNormaizedAxis(unsigned int axis) throw (string)
+double Joystick::getNormalizedAxis(unsigned int axis) throw (string)
 {
         if (axis >= axesNumber) {
                 ostringstream oss;
