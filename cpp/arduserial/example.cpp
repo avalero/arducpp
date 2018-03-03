@@ -18,5 +18,5 @@ int main(void){
 	string line;
 	arduino >> line; //receive string from serial port
 	cout << line << endl;
-	arduino.close();
+	arduino.closeSerial();
 }
