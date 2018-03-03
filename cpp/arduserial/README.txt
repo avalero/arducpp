@@ -2,6 +2,6 @@ Treats the serial port as a stream. It is configured to work straight forward wi
 
 You need the libserial-dev on your system
 
-To build link with libserial, for example
+To build link with libserial and libpthread, for example
 
-$> g++ *.cpp -lserial
+$> g++ *.cpp -lserial -lpthread
