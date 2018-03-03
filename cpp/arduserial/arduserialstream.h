@@ -1,5 +1,5 @@
-#ifndef __ARDUSERIALCLIENT_H__
-#define __ARDUSERIALCLIENT_H__
+#ifndef __ARDUSERIALSTREAM_H__
+#define __ARDUSERIALSTREAM_H__
 
 #include <iostream>
 #include <SerialStream.h>
@@ -13,7 +13,10 @@ class ArduSerialStream : public SerialStream
 public:
     // constructores
     ArduSerialStream(){};
-    ArduSerialStream(string serial):serial(serial){
+    ArduSerialStream(string serial,
+					SerialStreamBuf::BaudRateEnum baudrate=SerialStreamBuf::BAUD_9600):
+					serial(serial),baudrate(baudrate)
+	{
         openSerial();
     }
     ~ArduSerialStream(){
@@ -22,10 +25,8 @@ public:
 
 private:
     // Member Functions
-
     /**
       * Opens serial port
-      * @param serial The serial port
       */
     void openSerial();
     /**
@@ -35,6 +36,7 @@ private:
 
 private:
     string serial;
+    SerialStreamBuf::BaudRateEnum baudrate;
 
 };
 

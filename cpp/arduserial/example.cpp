@@ -5,7 +5,7 @@ using namespace std;
 
 int main(void){
 	
-	ArduSerialStream arduino("/dev/ttyUSB0");
+	ArduSerialStream arduino("/dev/ttyUSB0",SerialStreamBuf::BAUD_9600);
 
 	if (arduino.IsOpen()){
 		cout << "connected" << endl;
@@ -14,10 +14,8 @@ int main(void){
 		return -1;
 	}
 	
-	
-	arduino << "Send this string" << endl;
-	
-	string received_string;
-	arduino >> received_string;
-	
+	arduino << "Hola" << endl; //Send string "hola" thorugh serial port
+	string line;
+	arduino >> line; //receive string from serial port
+	cout << line << endl;
 }

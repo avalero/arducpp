@@ -13,14 +13,14 @@
 using namespace std;
 using namespace LibSerial;
 
-void ArduSerialStream::openSerial() // serial = "/dev/ttyUSB0"
+void ArduSerialStream::openSerial()
 {
     if (IsOpen()){
         closeSerial();
     }
 
     Open(serial);
-    SetBaudRate( SerialStreamBuf::BAUD_9600);
+    SetBaudRate( baudrate);
     SetCharSize( SerialStreamBuf::CHAR_SIZE_8);
     SetParity( SerialStreamBuf::PARITY_NONE);
     SetNumOfStopBits(1);
