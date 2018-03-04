@@ -12,7 +12,6 @@ class ArduSerialStream : public SerialStream
 
 public:
     // constructores
-    ArduSerialStream(){};
     ArduSerialStream(string serial,
 					SerialStreamBuf::BaudRateEnum baudrate=SerialStreamBuf::BAUD_9600):
 					serial(serial),baudrate(baudrate)

@@ -7,6 +7,8 @@ int main(void){
 	
 	ArduSerialStream arduino("/dev/ttyUSB0",SerialStreamBuf::BAUD_9600);
 
+	arduino.openSerial();
+	
 	if (arduino.IsOpen()){
 		cout << "connected" << endl;
 	}else{
@@ -18,5 +20,6 @@ int main(void){
 	string line;
 	arduino >> line; //receive string from serial port
 	cout << line << endl;
+	
 	arduino.closeSerial();
 }
