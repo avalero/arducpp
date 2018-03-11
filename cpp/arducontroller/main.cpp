@@ -1,42 +1,46 @@
+#define debug
+
 #include <iostream>
 #include "arduserialstream.h"
-
-
-using namespace std;
-
-int digitalPin = 13;
-bool state = false;
+#include "arduinointerface.h"
 
 int main(int argc, char *argv[])
 {
-    ArduSerialStream arduino("/dev/ttyUSB0");
-    arduino.openSerial();
-    if(arduino.IsOpen()){
+
+    //CONNECT TO ARDUINO
+    ArduSerialStream arduinoSerial("/dev/ttyUSB0",SerialStreamBuf::BAUD_115200);
+    arduinoSerial.openSerial();
+    if(arduinoSerial.IsOpen()){
         cout << "Connection succeed" << endl;
     }else{
         cout << "Connection did NOT succeed" << endl;
         return -1;
     }
 
-    cout << "Introduce número pin digital: " ;
-    cin >> digitalPin;
+    ArduinoInterface arduino(&arduinoSerial);
+    arduino.pinMode(3,OUTPUT);
 
-    cout << "Introduce estado del pin " << digitalPin << " (0 - LOW, 1 - HIGH): " ;
-    cin >> state;
 
-    if(digitalPin < 10){
-        arduino << "DW0" << digitalPin << state << ";" ;
-#ifdef debug
-        cout <<  "DW0" << digitalPin << state << ";" << endl;
-#endif
-    }else{
-        arduino << "DW" << digitalPin << state << ";" ;//<< endl;
-#ifdef debug
-        cout << "DW" << digitalPin << state << ";" << endl;
-#endif
+    /********************************************************/
+
+    //ARDUINO PROGRAM
+
+    //blink
+    while(true){
+        if(arduino.digitalRead(8) == 1 ){
+            arduino.digitalWrite(3,HIGH);
+            arduino.delay(1000);
+            arduino.digitalWrite(3,LOW);
+            arduino.delay(1000);
+        }else{
+            arduino.delay(10);
+        }
     }
 
-    arduino.closeSerial();
+    /********************************************************/
+
+    //CLOSE ARDUINO CONNECTION
+    arduinoSerial.closeSerial();
 
     return 0;
 }
